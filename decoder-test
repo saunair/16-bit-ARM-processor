@@ -1,0 +1,149 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY dcdtst IS
+END dcdtst;
+ 
+ARCHITECTURE behavior OF dcdtst IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT decoder
+    PORT(
+         clk : IN  std_logic;
+         carry : IN  std_logic;
+         zero : IN  std_logic;
+         negative : IN  std_logic;
+         overflow : IN  std_logic;
+         inst_in : IN  std_logic_vector(15 downto 0);
+         ready : IN  std_logic;
+         alu_select : OUT  std_logic_vector(3 downto 0);
+         inp1_addr : OUT  std_logic_vector(3 downto 0);
+         inp2_addr : OUT  std_logic_vector(3 downto 0);
+         inp3_addr : OUT  std_logic_vector(3 downto 0);
+         wr_addr : OUT  std_logic_vector(3 downto 0);
+         wr : OUT  std_logic;
+         mux_imm : OUT  std_logic;
+         pc_sign : OUT  std_logic_vector(1 downto 0);
+         stck_ram : OUT  std_logic;
+         push : OUT  std_logic;
+         pop : OUT  std_logic;
+         barrel_shift : OUT  std_logic_vector(3 downto 0);
+         barr_sel : OUT  std_logic_vector(1 downto 0);
+         imm_data : OUT  std_logic_vector(15 downto 0);
+         cpsr_en : OUT  std_logic;
+         mem_rd : OUT  std_logic;
+         mem_wr : OUT  std_logic;
+         clk_out : OUT  std_logic;
+         pc_en : OUT  std_logic
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal clk : std_logic := '0';
+   signal carry : std_logic := '0';
+   signal zero : std_logic := '0';
+   signal negative : std_logic := '0';
+   signal overflow : std_logic := '0';
+   signal inst_in : std_logic_vector(15 downto 0) := (others => '0');
+   signal ready : std_logic := '0';
+
+ 	--Outputs
+   signal alu_select : std_logic_vector(3 downto 0);
+   signal inp1_addr : std_logic_vector(3 downto 0);
+   signal inp2_addr : std_logic_vector(3 downto 0);
+   signal inp3_addr : std_logic_vector(3 downto 0);
+   signal wr_addr : std_logic_vector(3 downto 0);
+   signal wr : std_logic;
+   signal mux_imm : std_logic;
+   signal pc_sign : std_logic_vector(1 downto 0);
+   signal stck_ram : std_logic;
+   signal push : std_logic;
+   signal pop : std_logic;
+   signal barrel_shift : std_logic_vector(3 downto 0);
+   signal barr_sel : std_logic_vector(1 downto 0);
+   signal imm_data : std_logic_vector(15 downto 0);
+   signal cpsr_en : std_logic;
+   signal mem_rd : std_logic;
+   signal mem_wr : std_logic;
+   signal clk_out : std_logic;
+   signal pc_en : std_logic;
+
+   -- Clock period definitions
+   constant clk_period : time := 10 ns;
+   constant clk_out_period : time := 10 ns;
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: decoder PORT MAP (
+          clk => clk,
+          carry => carry,
+          zero => zero,
+          negative => negative,
+          overflow => overflow,
+          inst_in => inst_in,
+          ready => ready,
+          alu_select => alu_select,
+          inp1_addr => inp1_addr,
+          inp2_addr => inp2_addr,
+          inp3_addr => inp3_addr,
+          wr_addr => wr_addr,
+          wr => wr,
+          mux_imm => mux_imm,
+          pc_sign => pc_sign,
+          stck_ram => stck_ram,
+          push => push,
+          pop => pop,
+          barrel_shift => barrel_shift,
+          barr_sel => barr_sel,
+          imm_data => imm_data,
+          cpsr_en => cpsr_en,
+          mem_rd => mem_rd,
+          mem_wr => mem_wr,
+          clk_out => clk_out,
+          pc_en => pc_en
+        );
+
+   -- Clock process definitions
+   clk_process :process
+   begin
+		clk <= '0';
+		wait for clk_period/2;
+		clk <= '1';
+		wait for clk_period/2;
+   end process;
+ 
+   clk_out_process :process
+   begin
+		clk_out <= '0';
+		wait for clk_out_period/2;
+		clk_out <= '1';
+		wait for clk_out_period/2;
+   end process;
+ 
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+		ready<='1';
+		inst_in<=X"1058";
+		wait for 100 ns;
+		inst_in<=X"B400";
+		wait for 100 ns;
+		inst_in<=X"3902";
+		
+
+      -- insert stimulus here 
+
+      wait;
+   end process;
+
+END;
