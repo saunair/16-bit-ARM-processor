@@ -1,0 +1,88 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY queuetst IS
+END queuetst;
+ 
+ARCHITECTURE behavior OF queuetst IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT Inst_Q
+    PORT(
+         inst_wr : IN  std_logic;
+         Inst_In : IN  std_logic_vector(15 downto 0);
+         Inst_Out : OUT  std_logic_vector(15 downto 0);
+         Inst_ptr : IN  std_logic_vector(15 downto 0);
+         clk : IN  std_logic;
+         wr_inst_ptr : IN  std_logic_vector(3 downto 0)
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal inst_wr : std_logic := '0';
+   signal Inst_In : std_logic_vector(15 downto 0) := (others => '0');
+   signal Inst_ptr : std_logic_vector(15 downto 0) := (others => '0');
+   signal clk : std_logic := '0';
+   signal wr_inst_ptr : std_logic_vector(3 downto 0) := (others => '0');
+
+ 	--Outputs
+   signal Inst_Out : std_logic_vector(15 downto 0);
+
+   -- Clock period definitions
+   constant clk_period : time := 10 ns;
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: Inst_Q PORT MAP (
+          inst_wr => inst_wr,
+          Inst_In => Inst_In,
+          Inst_Out => Inst_Out,
+          Inst_ptr => Inst_ptr,
+          clk => clk,
+          wr_inst_ptr => wr_inst_ptr
+        );
+
+   -- Clock process definitions
+   clk_process :process
+   begin
+		clk <= '0';
+		wait for clk_period/2;
+		clk <= '1';
+		wait for clk_period/2;
+   end process;
+ 
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+		inst_wr<='1';
+		wr_inst_ptr<="0000";
+		Inst_in<=X"3902";
+		Inst_ptr<=X"0000";
+		wait for 100 ns;
+		wr_inst_ptr<="0001";
+		Inst_in<=X"B400";
+		Inst_ptr<=X"0001";
+		wait for 100 ns;
+		wr_inst_ptr<="0010";
+		Inst_in<=X"1058";
+		Inst_ptr<=X"0002";
+		wait for 100 ns;
+		
+		
+
+      -- insert stimulus here 
+
+      wait;
+   end process;
+
+END;
