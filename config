@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+	hideDotFiles = dotGitOnly
+[branch "master"]
+[branch "working-codes"]
+[remote "origin"]
+	url = https://github.com/saunair/16-bit-ARM-processor.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
