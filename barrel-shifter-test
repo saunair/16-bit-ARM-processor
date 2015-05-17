@@ -1,0 +1,130 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY barrtest IS
+END barrtest;
+ 
+ARCHITECTURE behavior OF barrtest IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT barrelshifter
+    PORT(
+         inp_addr_register2 : IN  std_logic_vector(3 downto 0);
+         data_writeback_cycle : IN  std_logic_vector(15 downto 0);
+         data_memory_cycle : IN  std_logic_vector(15 downto 0);
+         address_writeback : IN  std_logic_vector(3 downto 0);
+         address_memaccess : IN  std_logic_vector(3 downto 0);
+         datain : IN  std_logic_vector(31 downto 0);
+         direction : IN  std_logic;
+         rotation : IN  std_logic;
+         count : IN  std_logic_vector(3 downto 0);
+         dataout : OUT  std_logic_vector(15 downto 0);
+         mux_imm : IN  std_logic
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal inp_addr_register2 : std_logic_vector(3 downto 0) := (others => '0');
+   signal data_writeback_cycle : std_logic_vector(15 downto 0) := (others => '0');
+   signal data_memory_cycle : std_logic_vector(15 downto 0) := (others => '0');
+   signal address_writeback : std_logic_vector(3 downto 0) := (others => '0');
+   signal address_memaccess : std_logic_vector(3 downto 0) := (others => '0');
+   signal datain : std_logic_vector(31 downto 0) := (others => '0');
+   signal direction : std_logic := '0';
+   signal rotation : std_logic := '0';
+   signal count : std_logic_vector(3 downto 0) := (others => '0');
+   signal mux_imm : std_logic := '0';
+
+ 	--Outputs
+   signal dataout : std_logic_vector(15 downto 0);
+   -- No clocks detected in port list. Replace <clock> below with 
+   -- appropriate port name 
+ 
+  
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: barrelshifter PORT MAP (
+          inp_addr_register2 => inp_addr_register2,
+          data_writeback_cycle => data_writeback_cycle,
+          data_memory_cycle => data_memory_cycle,
+          address_writeback => address_writeback,
+          address_memaccess => address_memaccess,
+          datain => datain,
+          direction => direction,
+          rotation => rotation,
+          count => count,
+          dataout => dataout,
+          mux_imm => mux_imm
+        );
+
+   
+    -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+      inp_addr_register2 <="1100";
+    data_writeback_cycle <="0000111100001111";
+    data_memory_cycle <="1100110011001100";
+    address_writeback <="0000";
+    address_memaccess <="1010";
+    datain <="00000000000000000000000000000001";
+    direction <='0';
+    rotation <='0';
+    count <="0000";
+    mux_imm <='0';
+
+      wait for 10 ns;
+
+	inp_addr_register2 <="1100";
+    data_writeback_cycle <="0000111100001111";
+    data_memory_cycle <="1100110011001100";
+    address_writeback <="1100";
+    address_memaccess <="1010";
+    datain <="00000000000000000000000000000001";
+    direction <='0';
+    rotation <='1';
+    count <="0001";
+    mux_imm <='0';
+
+
+ wait for 10 ns;
+
+	inp_addr_register2 <="1100";
+    data_writeback_cycle <="0000111100001111";
+    data_memory_cycle <="1100110011001100";
+    address_writeback <="0000";
+    address_memaccess <="1100";
+    datain <="00000000000000000000000000000001";
+    direction <='1';
+    rotation <='0';
+    count <="0010";
+    mux_imm <='0';
+  
+ wait for 10 ns;
+
+	inp_addr_register2 <="1100";  -- rotation check
+    data_writeback_cycle <="0000111100001111";
+    data_memory_cycle <="1100110011001100";
+    address_writeback <="0000";
+    address_memaccess <="1100";
+    datain <="00000000000000000000000000000001";
+    direction <='1';
+    rotation <='1';
+    count <="0011";
+    mux_imm <='0';
+
+      -- insert stimulus here 
+
+      wait;
+   end process;
+
+END;
