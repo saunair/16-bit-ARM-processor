@@ -1,0 +1,249 @@
+--------------------------------------------------------------------------------
+-- Company: 
+-- Engineer:
+--
+-- Create Date:   20:00:59 04/19/2014
+-- Design Name:   
+-- Module Name:   D:/Workspace/final_arm/test_topModule.vhd
+-- Project Name:  final_arm
+-- Target Device:  
+-- Tool versions:  
+-- Description:   
+-- 
+-- VHDL Test Bench Created by ISE for module: top_module
+-- 
+-- Dependencies:
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+--
+-- Notes: 
+-- This testbench has been automatically generated using types std_logic and
+-- std_logic_vector for the ports of the unit under test.  Xilinx recommends
+-- that these types always be used for the top-level I/O of a design in order
+-- to guarantee that the testbench will bind correctly to the post-implementation 
+-- simulation model.
+--------------------------------------------------------------------------------
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY test_topModule IS
+END test_topModule;
+ 
+ARCHITECTURE behavior OF test_topModule IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT top_module
+    PORT(
+         t_clk : IN  std_logic;
+         t_inst_in : IN  std_logic_vector(15 downto 0);
+         t_wr : IN  std_logic;
+         result : OUT  std_logic_vector(15 downto 0);
+         --t_pc_out : OUT  std_logic_vector(15 downto 0);
+         --t_clk_out : OUT  std_logic;
+         t_inst_ptr : IN  std_logic_vector(3 downto 0);
+         t_inst_rd : IN  std_logic;
+         t_reg1_addr : OUT  std_logic_vector(3 downto 0);
+         t_reg2_addr : OUT  std_logic_vector(3 downto 0);
+         t_inst_out : OUT  std_logic_vector(15 downto 0);
+         t_alu_sel : OUT  std_logic_vector(3 downto 0);
+         t_imm : OUT  std_logic;
+         t_wdata : OUT  std_logic_vector(15 downto 0);
+         t_waddr : OUT  std_logic_vector(3 downto 0);
+         t_rm : OUT  std_logic_vector(15 downto 0);
+         t_rn : OUT  std_logic_vector(15 downto 0);
+         t_reg_reset : IN  std_logic;
+         t_wr_reg : OUT  std_logic;
+         t_r0 : OUT  std_logic_vector(15 downto 0);
+         t_r1 : OUT  std_logic_vector(15 downto 0);
+         t_r2 : OUT  std_logic_vector(15 downto 0);
+         t_r3 : OUT  std_logic_vector(15 downto 0);
+         t_r4 : OUT  std_logic_vector(15 downto 0);
+         t_r5 : OUT  std_logic_vector(15 downto 0);
+			top_st_0:OUT std_logic_vector(15 downto 0);
+			top_st_3:OUT std_logic_vector(15 downto 0);
+			top_st_7:OUT std_logic_vector(15 downto 0);
+			t_ready:in std_logic;
+			t_pc_en:out std_logic
+--			t_mr128:out std_logic_vector(15 downto 0);
+--			t_mr129:out std_logic_vector(15 downto 0);
+--			t_mr130:out std_logic_vector(15 downto 0);
+--			t_mr131:out std_logic_vector(15 downto 0);
+--			t_mr132:out std_logic_vector(15 downto 0);
+--			t_mr133:out std_logic_vector(15 downto 0)
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal t_clk : std_logic := '0';
+   signal t_inst_in : std_logic_vector(15 downto 0) := (others => '0');
+   signal t_wr : std_logic := '0';
+   signal t_inst_ptr : std_logic_vector(3 downto 0) := (others => '0');
+   signal t_inst_rd : std_logic := '0';
+   signal t_reg_reset : std_logic := '0';
+   signal t_ready:std_logic;
+	
+ 	--Outputs
+   signal result : std_logic_vector(15 downto 0);
+  -- signal t_pc_out : std_logic_vector(15 downto 0);
+   --signal t_clk_out : std_logic;
+   signal t_reg1_addr : std_logic_vector(3 downto 0);
+   signal t_reg2_addr : std_logic_vector(3 downto 0);
+   signal t_inst_out : std_logic_vector(15 downto 0);
+   signal t_alu_sel : std_logic_vector(3 downto 0);
+   signal t_imm : std_logic;
+   signal t_wdata : std_logic_vector(15 downto 0);
+   signal t_waddr : std_logic_vector(3 downto 0);
+   signal t_rm : std_logic_vector(15 downto 0);
+   signal t_rn : std_logic_vector(15 downto 0);
+   signal t_wr_reg : std_logic;
+   signal t_r0 : std_logic_vector(15 downto 0);
+   signal t_r1 : std_logic_vector(15 downto 0);
+   signal t_r2 : std_logic_vector(15 downto 0);
+   signal t_r3 : std_logic_vector(15 downto 0);
+   signal t_r4 : std_logic_vector(15 downto 0);
+   signal t_r5 : std_logic_vector(15 downto 0);
+	signal top_st_0 : std_logic_vector(15 downto 0);
+	signal top_st_3 : std_logic_vector(15 downto 0);
+	signal top_st_7 : std_logic_vector(15 downto 0);
+	signal t_pc_en:std_logic;
+--   signal t_mr128:std_logic_vector(15 downto 0);
+--	signal t_mr129:std_logic_vector(15 downto 0);
+--	signal t_mr130:std_logic_vector(15 downto 0);
+--	signal t_mr131:std_logic_vector(15 downto 0);
+--	signal t_mr132:std_logic_vector(15 downto 0);
+--   signal t_mr133:std_logic_vector(15 downto 0);
+	
+   -- Clock period definitions
+   constant t_clk_period : time := 10 ns;
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: top_module PORT MAP (
+          t_clk => t_clk,
+          t_inst_in => t_inst_in,
+          t_wr => t_wr,
+          result => result,
+--          t_pc_out => t_pc_out,
+          --t_clk_out => t_clk_out,
+          t_inst_ptr => t_inst_ptr,
+          t_inst_rd => t_inst_rd,
+          t_reg1_addr => t_reg1_addr,
+          t_reg2_addr => t_reg2_addr,
+          t_inst_out => t_inst_out,
+          t_alu_sel => t_alu_sel,
+          t_imm => t_imm,
+          t_wdata => t_wdata,
+          t_waddr => t_waddr,
+          t_rm => t_rm,
+          t_rn => t_rn,
+          t_reg_reset => t_reg_reset,
+          t_wr_reg => t_wr_reg,
+          t_r0 => t_r0,
+          t_r1 => t_r1,
+          t_r2 => t_r2,
+          t_r3 => t_r3,
+          t_r4 => t_r4,
+          t_r5 => t_r5,
+--			 t_mr128=>t_mr128,
+--			 t_mr129=>t_mr129,
+--			 t_mr130=>t_mr130,
+--			 t_mr131=>t_mr131,
+--			 t_mr132=>t_mr132,
+--			 t_mr133=>t_mr133
+          top_st_0=>top_st_0,
+			 top_st_3=>top_st_3,
+			 top_st_7=>top_st_7,
+			 t_ready=>t_ready,
+			 t_pc_en=>t_pc_en
+        );
+
+   -- Clock process definitions
+   t_clk_process :process
+   begin
+		t_clk <= '0';
+		wait for t_clk_period/2;
+		t_clk <= '1';
+		wait for t_clk_period/2;
+   end process;
+ 
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      t_reg_reset<='1';
+		t_ready<='0';
+		wait for 10 ns;	
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"3801"; -- Mov r0,#01
+		t_inst_ptr<="0000";
+		wait for 10 ns;	
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"3A02"; -- Mov r2,#02
+		t_inst_ptr<="0001";
+		wait for 10 ns;	
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"3B03"; -- Mov r3,#03
+		t_inst_ptr<="0010";
+		wait for 10 ns;	
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"3902"; -- Mov r1,#02
+		t_inst_ptr<="0011";
+		wait for 10 ns;	
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"D400"; -- NOP
+		t_inst_ptr<="0100";
+		wait for 10 ns;
+		t_reg_reset<='0';
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"100B"; -- Add r0,r1,r3
+		t_inst_ptr<="0101";
+		wait for 10 ns;
+		t_reg_reset<='0';
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"0041"; -- LSL r0,r1#01
+		t_inst_ptr<="0110";
+		wait for 10 ns;
+		t_reg_reset<='0';
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"089C"; -- ASL r3,r4,#02
+		t_inst_ptr<="0111";
+		wait for 10 ns;
+		t_reg_reset<='0';
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"B881"; -- push r0,r7
+		t_inst_ptr<="1000";
+		wait for 10 ns;
+		t_reg_reset<='0';
+      t_inst_rd<='0';
+      t_wr<='1';
+		t_inst_in<=X"BC81"; -- pop r0,r7
+		t_inst_ptr<="1001";
+		wait for 10 ns;
+		t_inst_rd<='1';
+		t_wr<='0';	
+		t_ready<='1';
+		
+
+      wait;
+   end process;
+
+END;

@@ -1,0 +1,234 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY cntrltst IS
+END cntrltst;
+ 
+ARCHITECTURE behavior OF cntrltst IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT control
+    PORT(
+         clk : IN  std_logic;
+         mem_rd1 : IN  std_logic;
+         mem_wr1 : IN  std_logic;
+         alu_in : IN  std_logic_vector(3 downto 0);
+         inp1 : IN  std_logic_vector(3 downto 0);
+         inp2 : IN  std_logic_vector(3 downto 0);
+         inp3 : IN  std_logic_vector(3 downto 0);
+         wr_address : IN  std_logic_vector(3 downto 0);
+         write_enable : IN  std_logic;
+         mux_imm_sel : IN  std_logic;
+         pc_signed : IN  std_logic_vector(1 downto 0);
+         stck_ram_input : IN  std_logic;
+         push_sig : IN  std_logic;
+         pop_sig : IN  std_logic;
+         barrelshift_input : IN  std_logic_vector(3 downto 0);
+         barrel_in : IN  std_logic_vector(1 downto 0);
+         imm_input : IN  std_logic_vector(15 downto 0);
+         cpsr_en_in : IN  std_logic;
+         alu_select : OUT  std_logic_vector(3 downto 0);
+         inp1_addr : OUT  std_logic_vector(3 downto 0);
+         inp2_addr : OUT  std_logic_vector(3 downto 0);
+         inp3_addr : OUT  std_logic_vector(3 downto 0);
+         wr_addr : OUT  std_logic_vector(3 downto 0);
+         add_fwd : OUT  std_logic_vector(3 downto 0);
+         wr : OUT  std_logic;
+         mux_imm : OUT  std_logic;
+         pc_sign : OUT  std_logic_vector(1 downto 0);
+         stck_ram : OUT  std_logic;
+         push : OUT  std_logic;
+         pop : OUT  std_logic;
+         barrel_shift : OUT  std_logic_vector(3 downto 0);
+         barr_sel : OUT  std_logic_vector(1 downto 0);
+         imm_data : OUT  std_logic_vector(15 downto 0);
+         mem_rd : OUT  std_logic;
+         mem_wr : OUT  std_logic;
+         cpsr_en_out : OUT  std_logic;
+         clk_out : OUT  std_logic
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal clk : std_logic := '0';
+   signal mem_rd1 : std_logic := '0';
+   signal mem_wr1 : std_logic := '0';
+   signal alu_in : std_logic_vector(3 downto 0) := (others => '0');
+   signal inp1 : std_logic_vector(3 downto 0) := (others => '0');
+   signal inp2 : std_logic_vector(3 downto 0) := (others => '0');
+   signal inp3 : std_logic_vector(3 downto 0) := (others => '0');
+   signal wr_address : std_logic_vector(3 downto 0) := (others => '0');
+   signal write_enable : std_logic := '0';
+   signal mux_imm_sel : std_logic := '0';
+   signal pc_signed : std_logic_vector(1 downto 0) := (others => '0');
+   signal stck_ram_input : std_logic := '0';
+   signal push_sig : std_logic := '0';
+   signal pop_sig : std_logic := '0';
+   signal barrelshift_input : std_logic_vector(3 downto 0) := (others => '0');
+   signal barrel_in : std_logic_vector(1 downto 0) := (others => '0');
+   signal imm_input : std_logic_vector(15 downto 0) := (others => '0');
+   signal cpsr_en_in : std_logic := '0';
+
+ 	--Outputs
+   signal alu_select : std_logic_vector(3 downto 0);
+   signal inp1_addr : std_logic_vector(3 downto 0);
+   signal inp2_addr : std_logic_vector(3 downto 0);
+   signal inp3_addr : std_logic_vector(3 downto 0);
+   signal wr_addr : std_logic_vector(3 downto 0);
+   signal add_fwd : std_logic_vector(3 downto 0);
+   signal wr : std_logic;
+   signal mux_imm : std_logic;
+   signal pc_sign : std_logic_vector(1 downto 0);
+   signal stck_ram : std_logic;
+   signal push : std_logic;
+   signal pop : std_logic;
+   signal barrel_shift : std_logic_vector(3 downto 0);
+   signal barr_sel : std_logic_vector(1 downto 0);
+   signal imm_data : std_logic_vector(15 downto 0);
+   signal mem_rd : std_logic;
+   signal mem_wr : std_logic;
+   signal cpsr_en_out : std_logic;
+   signal clk_out : std_logic;
+
+   -- Clock period definitions
+   constant clk_period : time := 10 ns;
+   constant clk_out_period : time := 10 ns;
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: control PORT MAP (
+          clk => clk,
+          mem_rd1 => mem_rd1,
+          mem_wr1 => mem_wr1,
+          alu_in => alu_in,
+          inp1 => inp1,
+          inp2 => inp2,
+          inp3 => inp3,
+          wr_address => wr_address,
+          write_enable => write_enable,
+          mux_imm_sel => mux_imm_sel,
+          pc_signed => pc_signed,
+          stck_ram_input => stck_ram_input,
+          push_sig => push_sig,
+          pop_sig => pop_sig,
+          barrelshift_input => barrelshift_input,
+          barrel_in => barrel_in,
+          imm_input => imm_input,
+          cpsr_en_in => cpsr_en_in,
+          alu_select => alu_select,
+          inp1_addr => inp1_addr,
+          inp2_addr => inp2_addr,
+          inp3_addr => inp3_addr,
+          wr_addr => wr_addr,
+          add_fwd => add_fwd,
+          wr => wr,
+          mux_imm => mux_imm,
+          pc_sign => pc_sign,
+          stck_ram => stck_ram,
+          push => push,
+          pop => pop,
+          barrel_shift => barrel_shift,
+          barr_sel => barr_sel,
+          imm_data => imm_data,
+          mem_rd => mem_rd,
+          mem_wr => mem_wr,
+          cpsr_en_out => cpsr_en_out,
+          clk_out => clk_out
+        );
+
+   -- Clock process definitions
+   clk_process :process
+   begin
+		clk <= '0';
+		wait for clk_period/2;
+		clk <= '1';
+		wait for clk_period/2;
+   end process;
+ 
+   clk_out_process :process
+   begin
+		clk_out <= '0';
+		wait for clk_out_period/2;
+		clk_out <= '1';
+		wait for clk_out_period/2;
+   end process;
+ 
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+   mem_rd1<='0';
+   mem_wr1<='0';
+	alu_in<="0001"; 
+	inp1<="0001";    
+	inp2<="0010";     
+	inp3<="0010";
+	wr_address<="0100";
+	write_enable<='1';
+	mux_imm_sel<='0';
+	pc_signed<="ZZ";
+	stck_ram_input<='Z';
+	push_sig<='0'; 
+	pop_sig<='0';
+	barrelshift_input<="0000"; 
+	barrel_in<="00";
+	imm_input<=X"0000";
+	cpsr_en_in<='1';
+	
+	wait for 100 ns;	
+   mem_rd1<='0';
+   mem_wr1<='1';
+	alu_in<="0010"; 
+	inp1<="0011";    
+	inp2<="0100";    
+	inp3<="0001";
+	wr_address<="0101";
+	write_enable<='1';
+	mux_imm_sel<='0';
+	pc_signed<="ZZ";
+	stck_ram_input<='Z';
+	push_sig<='0'; 
+	pop_sig<='0';
+	barrelshift_input<="0010";  
+	barrel_in<="00";
+	imm_input<=X"0000";
+	cpsr_en_in<='1';
+	
+	wait for 100 ns;	
+   mem_rd1<='0';
+   mem_wr1<='0';
+	alu_in<="0011"; 
+	inp1<="0111";    
+	inp2<="ZZZZ";    
+	inp3<="0110";
+	wr_address<="0100";
+	write_enable<='1';
+	mux_imm_sel<='1';
+	pc_signed<="01";
+	stck_ram_input<='0';
+	push_sig<='0'; 
+	pop_sig<='0';
+	barrelshift_input<="0000";  
+	barrel_in<="00";
+	imm_input<=X"0010";
+	cpsr_en_in<='1';
+
+
+
+      
+
+      -- insert stimulus here 
+
+      wait;
+   end process;
+
+END;

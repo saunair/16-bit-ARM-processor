@@ -1,0 +1,137 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY tester IS
+END tester;
+ 
+ARCHITECTURE behavior OF tester IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT data_stack
+    PORT(
+         Clk : IN  std_logic;
+         Ram_Stack : IN  std_logic;
+         MemRead : IN  std_logic;
+         MemWrite : IN  std_logic;
+         Data_In : IN  std_logic_vector(15 downto 0);
+         Data_Out : OUT  std_logic_vector(15 downto 0);
+         PUSH : IN  std_logic;
+         POP : IN  std_logic;
+         Stack_Full : OUT  std_logic;
+         Stack_Empty : OUT  std_logic;
+         stack_ptr : OUT  std_logic_vector(6 downto 0);
+         addr : IN  std_logic_vector(15 downto 0);
+         sel : IN  std_logic_vector(3 downto 0);
+         mr128 : OUT  std_logic_vector(15 downto 0);
+         mr129 : OUT  std_logic_vector(15 downto 0);
+         mr130 : OUT  std_logic_vector(15 downto 0);
+         mr131 : OUT  std_logic_vector(15 downto 0);
+         st_data : IN  std_logic_vector(15 downto 0);
+         stack_0 : OUT  std_logic_vector(15 downto 0);
+         stack_3 : OUT  std_logic_vector(15 downto 0);
+         stack_7 : OUT  std_logic_vector(15 downto 0)
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal Clk : std_logic := '0';
+   signal Ram_Stack : std_logic := '0';
+   signal MemRead : std_logic := '0';
+   signal MemWrite : std_logic := '0';
+   signal Data_In : std_logic_vector(15 downto 0) := (others => '0');
+   signal PUSH : std_logic := '0';
+   signal POP : std_logic := '0';
+   signal addr : std_logic_vector(15 downto 0) := (others => '0');
+   signal sel : std_logic_vector(3 downto 0) := (others => '0');
+   signal st_data : std_logic_vector(15 downto 0) := (others => '0');
+
+ 	--Outputs
+   signal Data_Out : std_logic_vector(15 downto 0);
+   signal Stack_Full : std_logic;
+   signal Stack_Empty : std_logic;
+   signal stack_ptr : std_logic_vector(6 downto 0);
+   signal mr128 : std_logic_vector(15 downto 0);
+   signal mr129 : std_logic_vector(15 downto 0);
+   signal mr130 : std_logic_vector(15 downto 0);
+   signal mr131 : std_logic_vector(15 downto 0);
+   signal stack_0 : std_logic_vector(15 downto 0);
+   signal stack_3 : std_logic_vector(15 downto 0);
+   signal stack_7 : std_logic_vector(15 downto 0);
+
+   -- Clock period definitions
+   constant Clk_period : time := 10 ns;
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: data_stack PORT MAP (
+          Clk => Clk,
+          Ram_Stack => Ram_Stack,
+          MemRead => MemRead,
+          MemWrite => MemWrite,
+          Data_In => Data_In,
+          Data_Out => Data_Out,
+          PUSH => PUSH,
+          POP => POP,
+          Stack_Full => Stack_Full,
+          Stack_Empty => Stack_Empty,
+          stack_ptr => stack_ptr,
+          addr => addr,
+          sel => sel,
+          mr128 => mr128,
+          mr129 => mr129,
+          mr130 => mr130,
+          mr131 => mr131,
+          st_data => st_data,
+          stack_0 => stack_0,
+          stack_3 => stack_3,
+          stack_7 => stack_7
+        );
+
+   -- Clock process definitions
+   Clk_process :process
+   begin
+		Clk <= '0';
+		wait for Clk_period/2;
+		Clk <= '1';
+		wait for Clk_period/2;
+   end process;
+ 
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+		wait for 100 ns;	
+		 Ram_stack<='1';
+		sel<="1101";
+		MemWrite<='1';
+		addr<="0000000001111111";
+		wait for 10 ns;
+		MemWrite<='0';
+		PUSH<='1';
+		POP<='0';
+		Data_In<=X"00FF";
+		wait for 10 ns;	
+		PUSH<='0';
+		POP<='1';
+		wait for 10 ns;
+		Ram_stack<='0';
+		MemWrite<='1';
+		addr<=X"0000";
+		st_data<=X"00F0";
+		wait for 10 ns;
+
+      -- insert stimulus here 
+
+      wait;
+   end process;
+
+END;
